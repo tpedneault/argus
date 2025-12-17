@@ -7,3 +7,4 @@ license.workspace = true
 repository.workspace = true
 
 [dependencies]
+deku = "0.18"

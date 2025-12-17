@@ -1,39 +1,23 @@
-use crate::{Result};
+use deku::prelude::*;
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, DekuRead, DekuWrite)]
+#[deku(id_type = "u8", bits = "1")]
 pub enum PacketType {
-    Telemetry,    // 00
-    Telecommand   // 11
+    #[deku(id = "0b0")]
+    Telemetry,
+    #[deku(id = "0b1")]
+    Telecommand,
 }
 
-impl TryFrom<u8> for PacketType {
-    type Error = crate::Error;
-    fn try_from(v: u8) -> Result<Self> {
-        match v & 0b1 {
-            0b0 => Ok(PacketType::Telemetry),
-            0b1 => Ok(PacketType::Telecommand),
-            _ => unreachable!(), // masked to 1 bit
-        }
-    }
-}
-
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, DekuRead, DekuWrite)]
+#[deku(id_type = "u8", bits = "2")]
 pub enum SequenceFlag {
-    Continuation, // 00
-    First,        // 01
-    Last,         // 10
-    Unsegmented   // 11
-}
-
-impl TryFrom<u8> for SequenceFlag {
-    type Error = crate::Error;
-    fn try_from(v: u8) -> Result<Self> {
-        match v & 0b11 {
-            0b00 => Ok(SequenceFlag::Continuation),
-            0b01 => Ok(SequenceFlag::First),
-            0b10 => Ok(SequenceFlag::Last),
-            0b11 => Ok(SequenceFlag::Unsegmented),
-            _ => unreachable!(), // masked to 2 bits
-        }
-    }
+    #[deku(id = "0b00")]
+    Continuation,
+    #[deku(id = "0b01")]
+    First,
+    #[deku(id = "0b10")]
+    Last,
+    #[deku(id = "0b11")]
+    Unsegmented,
 }
