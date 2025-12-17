@@ -1,0 +1,19 @@
+[workspace]
+resolver = "2"
+members = [
+    "apps/*/src-tauri",
+]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2021"
+authors = ["Thomas Pedneault <thomas@pedneault.dev>"]
+license = "MIT"
+repository = "https://github.com/tpedneault/argus"
+
+[workspace.dependencies]
+# Common dependencies used across multiple crates can be defined here
+# and referenced in individual Cargo.toml files with: dep = { workspace = true }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+tokio = { version = "1", features = ["full"] }
